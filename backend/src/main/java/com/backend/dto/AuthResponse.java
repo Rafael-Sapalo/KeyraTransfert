@@ -1,16 +1,13 @@
 package com.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @RequiredArgsConstructor
 public class AuthResponse {
     @JsonProperty("access_token")
-    private String accessToken;
+    private final String accessToken;
 
     @JsonProperty("token_type")
     private String tokenType = "Bearer";

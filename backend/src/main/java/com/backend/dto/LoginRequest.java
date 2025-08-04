@@ -1,13 +1,10 @@
 package com.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequest {
-    private String username;
-    private String password;
+    private final String email;
+    private final String password;
 }
