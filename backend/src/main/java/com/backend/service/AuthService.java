@@ -2,6 +2,7 @@ package com.backend.service;
 
 import com.backend.dto.AuthResponse;
 import com.backend.dto.LoginRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +19,11 @@ public class AuthService {
     // - checkUserSession(String userId)
     // - etc.
 
+    public final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public AuthResponse login(LoginRequest request) {
-        return new AuthResponse(request.getEmail());
+        String passwordHash = passwordEncoder.encode(request.getPassword());
+        return new AuthResponse(passwordHash);
     }
 
     public AuthResponse refreshToken(String refreshToken) {
