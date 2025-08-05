@@ -2,6 +2,7 @@ package com.backend.service;
 
 import com.backend.dto.AuthResponse;
 import com.backend.dto.LoginRequest;
+import com.backend.exception.ResourceNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,17 @@ public class AuthService {
     // - etc.
 
     public final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public String passwordHash = "$2a$10$eImiTMZG4T5x0l9j6b8OeO7z1Z3f5h5k5f5k5f5k5f5k5f5k5f5k5"; // Example hash
 
     public AuthResponse login(LoginRequest request) {
-        String passwordHash = passwordEncoder.encode(request.getPassword());
-        return new AuthResponse(passwordHash);
+        try {
+            if (!this.passwordEncoder.matches(request.getPassword(), request.getPassword())) {
+                throw new ResourceNotFoundException("Invalid credentials");
+            }
+            return new AuthResponse(passwordHash);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException(e.getMessage());
+        }
     }
 
     public AuthResponse refreshToken(String refreshToken) {
